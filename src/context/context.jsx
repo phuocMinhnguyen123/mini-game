@@ -22,13 +22,13 @@ export const AppProvider = ({ children }) => {
     const interval = setInterval(() => {
       const player = randomFromArr(playerArr);
       setName(player);
-    }, 500);
+    }, 400);
     setTimeout(() => {
       clearInterval(interval);
       const player = randomFromArr(playerArr);
       playerArr = removeFromArr(playerArr, player);
       return setName(player);
-    }, 3000);
+    }, 2000);
 
     function setName(name) {
       console.log(name);

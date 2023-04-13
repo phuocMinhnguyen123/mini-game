@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { randomFromArr } from "../function/function";
 
 const questionArr = [
@@ -12,13 +12,17 @@ const questionArr = [
   "Make a compliment of one of your co-worker",
   "What do you consider the best decision you've made thus far in your life?",
   "What's the best compliment you ever received?",
+  "What do you find extremely difficult that most people find simple?",
+  "sing a line in your favorite song ",
+  "describe your morning routine",
   "If each person had a warning label, what would yours say?",
   "Who is the best family member to you",
   "Do some Drawing of your window",
 ];
 
-function Question() {
+function Question({ num }) {
   const cache = new Map();
+
   const callback = (x) => {
     const getRadomWithCache = () => {
       const size = questionArr.length - 1;
@@ -30,10 +34,13 @@ function Question() {
     return questionArr[getRadomWithCache()];
   };
   return (
-    <div className="w-4/5 justify-center text-white flex flex-wrap  gap-10">
-      {Array.from({ length: 4 }, callback).map((ele, index) => {
+    <div className="w-full px-20 justify-center text-white items-center flex flex-col flex-wrap  gap-10">
+      {Array.from({ length: num }, callback).map((ele, index) => {
         return (
-          <div className="w-1/5 rounded-xl">
+          <div
+            style={{ letterSpacing: "0.5px" }}
+            className="w-4/5  text-2xl rounded-xl focus:text-orange-500 focus:border-orange-500"
+          >
             {index} .{ele}
           </div>
         );
