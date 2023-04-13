@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply p-0 m-0 box-border;
+  font-family: "Press Start 2P", cursive;
+}
