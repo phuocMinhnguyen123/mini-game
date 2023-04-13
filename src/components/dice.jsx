@@ -26,11 +26,11 @@ function Dice() {
     setFinish(false);
     const tick = setInterval(() => {
       setDice(randomFromArr(diceArr));
-    }, 500);
+    }, 300);
     setTimeout(() => {
       clearInterval(tick);
       setFinish(true);
-    }, 3000);
+    }, 2500);
   };
   useEffect(() => {
     if (!finish) return;

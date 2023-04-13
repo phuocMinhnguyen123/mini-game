@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { randomFromArr, removeFromArr } from "../function/function";
 
 const AppContext = createContext();
+
+let playerArr = ["Nick", "Jonas", "Zac", "Larz", "Trang"];
 
 const appState = {
   player1: { name: "", point: 0 },
@@ -12,7 +15,29 @@ const appState = {
 
 export const AppProvider = ({ children }) => {
   const [state, setState] = useState(appState);
-  const setPlayer1 = (payload, setPoint = false) => {
+  // pick player
+  function pickPlayer(playerNo = 1) {
+    console.log("pick");
+    const { player1, player2 } = state;
+    const interval = setInterval(() => {
+      const player = randomFromArr(playerArr);
+      setName(player);
+    }, 500);
+    setTimeout(() => {
+      clearInterval(interval);
+      const player = randomFromArr(playerArr);
+      playerArr = removeFromArr(playerArr, player);
+      return setName(player);
+    }, 3000);
+
+    function setName(name) {
+      console.log(name);
+      if (playerNo === 1) return setPlayer1(name);
+      return setPlayer2(name);
+    }
+  }
+  // setPlayer
+  function setPlayer1(payload, setPoint = false) {
     if (setPoint)
       return setState((prev) => ({
         ...prev,
@@ -22,9 +47,9 @@ export const AppProvider = ({ children }) => {
       ...prev,
       player1: { name: payload, point: prev.player1.point },
     }));
-  };
+  }
 
-  const setPlayer2 = (payload, setPoint = false) => {
+  function setPlayer2(payload, setPoint = false) {
     if (setPoint)
       return setState((prev) => ({
         ...prev,
@@ -34,7 +59,9 @@ export const AppProvider = ({ children }) => {
       ...prev,
       player2: { name: payload, point: prev.player2.point },
     }));
-  };
+  }
+
+  //  reset
   const reset = () => {
     setState({
       player1: { name: "", point: 0 },
@@ -62,7 +89,9 @@ export const AppProvider = ({ children }) => {
   }, [state]);
 
   return (
-    <AppContext.Provider value={{ ...state, setPlayer1, setPlayer2, reset }}>
+    <AppContext.Provider
+      value={{ ...state, setPlayer1, setPlayer2, reset, pickPlayer }}
+    >
       {children}
     </AppContext.Provider>
   );
