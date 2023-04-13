@@ -12,7 +12,7 @@ function App() {
     useAppContext();
 
   return (
-    <div className="w-full flex py-10 flex-col gap-5  min-h-[100vh] bg-green-700">
+    <div className="w-full flex py-5 flex-col gap-3  min-h-[100vh] bg-green-700">
       <h1 className="text-center text-3xl w-full text-orange-600">
         Ask Me Anything !
       </h1>
@@ -40,13 +40,13 @@ function App() {
         />
       </div>
       {draw && (
-        <div className="winner w-full text-center mx-auto text-yellow-400 text-3xl">
+        <div className="winner w-full mt-5 text-center mx-auto text-yellow-400 text-3xl">
           Draw !
           <Question num={4} />
         </div>
       )}
       {winner && (
-        <div className="winner w-full text-center mx-auto text-yellow-400 text-3xl">
+        <div className="winner w-full mt-5 text-center mx-auto text-yellow-400 text-3xl">
           {winner} win !
           <Question num={4} />
         </div>

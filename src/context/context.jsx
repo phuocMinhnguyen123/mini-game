@@ -3,7 +3,18 @@ import { randomFromArr, removeFromArr } from "../function/function";
 
 const AppContext = createContext();
 
-let playerArr = ["Nick", "Jonas", "Zac", "Larz", "Trang"];
+let playerArr = [
+  "Nick",
+  "Jonas",
+  "Zac",
+  "Larz",
+  "Forrest",
+  "Trang",
+  "Binh",
+  "Tri",
+  "Thinh",
+  "Trieu",
+];
 
 const appState = {
   player1: { name: "", point: 0 },
