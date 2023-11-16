@@ -1,39 +1,46 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { randomFromArr, removeFromArr } from "../function/function";
-
+import { question } from "../data/question";
 const AppContext = createContext();
 
 let playerArr = [
   "Nick",
   "Jonas",
-  "Zac",
-  "Larz",
-  "Forrest",
+  "Duy",
+  "Trucy",
+  "Nhi",
   "Trang",
-  "Binh",
+  "Cathy",
   "Tri",
   "Thinh",
-  "Trieu",
+  "Khoa",
+  "Alex",
+  "Thy",
+  "Danny",
+  "Vy",
+  "Yen",
 ];
 
-const appState = {
-  player1: { name: "", point: 0 },
-  player2: { name: "", point: 0 },
-  winner: null,
-  draw: false,
-  finish: false,
-};
+
 
 export const AppProvider = ({ children }) => {
-  const [state, setState] = useState(appState);
+  const [state, setState] = useState({
+    player1: { name: "", point: 0 },
+    player2: { name: "", point: 0 },
+    winner: null,
+    draw: false,
+    finish: false,
+    questions:question,
+    currentId:0,
+  });
   // pick player
   function pickPlayer(playerNo = 1) {
-    console.log("pick");
+    
     const { player1, player2 } = state;
     const interval = setInterval(() => {
       const player = randomFromArr(playerArr);
       setName(player);
-    }, 400);
+    }, 300);
     setTimeout(() => {
       clearInterval(interval);
       const player = randomFromArr(playerArr);
@@ -42,7 +49,7 @@ export const AppProvider = ({ children }) => {
     }, 2000);
 
     function setName(name) {
-      console.log(name);
+      
       if (playerNo === 1) return setPlayer1(name);
       return setPlayer2(name);
     }
@@ -72,14 +79,27 @@ export const AppProvider = ({ children }) => {
     }));
   }
 
+  const setSelectedQuesion = (id) => {
+
+    setState(prev => ({
+      ...prev,
+      currentId:id,
+    }))
+  }
+  console.log("state",state);
   //  reset
   const reset = () => {
+    console.log("current ID" ,state.currentId);
+    const newQuestions = state.questions.filter(ele => ele.id !== state.currentId)
+    console.log("reset new Questions",newQuestions);
     setState({
       player1: { name: "", point: 0 },
       player2: { name: "", point: 0 },
       winner: null,
       draw: false,
       finish: false,
+      currentId:state.currentId,
+      questions:[...newQuestions]
     });
   };
 
@@ -101,7 +121,7 @@ export const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ ...state, setPlayer1, setPlayer2, reset, pickPlayer }}
+      value={{ ...state, setPlayer1, setPlayer2, reset, pickPlayer,setSelectedQuesion }}
     >
       {children}
     </AppContext.Provider>

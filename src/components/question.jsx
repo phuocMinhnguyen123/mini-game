@@ -1,50 +1,52 @@
-import React, { useCallback } from "react";
-import { randomFromArr } from "../function/function";
+import React, { useCallback, useMemo } from "react";
+import { randomFromArr, shuffleArray } from "../function/function";
+import { useAppContext } from "../context/context";
+import { INFO, MARKETING, PROGRAMMING,SEO } from "../data/constant";
 
-const questionArr = [
-  "Take or show a picture of your nearest park",
-  "take a picture of your favorite food",
-  "Is there anything that most people find cute that creeps you out?",
-  "What is the last thing that you totally overreacted to?",
-  "In emergency situations, how do you react?",
-  "Make a compliment of one of your co-worker",
-  "What do you consider the best decision you've made thus far in your life?",
-  "What's the best compliment you ever received?",
-  "What do you find extremely difficult that most people find simple?",
-  "sing a line in your favorite song ",
-  "describe your morning routine",
-  "Write a motivation letter for weekend",
-  "What law have you broken the most in your life?",
-  "What do you love most about where you grew up?",
-  "Is there a part of Viet Nam culture that you don't like?",
-  "Draw your favorite Pet",
-  "If each person had a warning label, what would yours say?",
-  "Who is the best family member to you",
-  "Do some Drawing of your window",
-];
+
 
 function Question({ num }) {
   const cache = new Map();
+  const {questions,setSelectedQuesion,currentId} = useAppContext();
+  console.log("questions",questions);
+  const finalQuestions = useMemo(()=> {
+    let newArr = shuffleArray(questions)
+    let count = 4;
+    let index = 3;
+    let result = [];
+    let categories = [PROGRAMMING,INFO,SEO,MARKETING];
 
-  const callback = (x) => {
-    const getRadomWithCache = () => {
-      const size = questionArr.length - 1;
-      let i = Math.floor(Math.random() * size);
-      if (cache.has(i)) return getRadomWithCache();
-      cache.set(i, x);
-      return i;
-    };
-    return questionArr[getRadomWithCache()];
-  };
+    while (count > 0) {
+      let item;
+      const category = categories[index];
+       item = newArr.find(ele => ele.category === category);
+      if (!item) {
+        categories.pop();
+        --index;
+        --count;
+        item = newArr[newArr.length - 1];
+      } else {
+        --index;
+        --count;
+      }
+      result.push(item);
+    }
+    
+    return result;
+  },[questions,num])
+ 
   return (
-    <div className="w-full mt-8 px-20 justify-center text-slate-800 items-center flex flex-col flex-wrap  gap-10">
-      {Array.from({ length: num }, callback).map((ele, index) => {
+    <div className="w-full mt-8 max-w-[1500px] mx-auto px-20 justify-center text-slate-800 items-center grid grid-cols-2 gap-5 flex-wrap  ">
+      {finalQuestions.map((ele, index) => {
+        const isActive = currentId === ele.id;
         return (
           <div
             style={{ letterSpacing: "0.5px" }}
-            className="w-4/5  text-xl rounded-xl focus:text-orange-500 focus:border-orange-500"
+            id={ele.id}
+            onClick={()=> setSelectedQuesion(ele.id)}
+            className={`${!isActive ? "" :" border-orange-600 border-[5px] "} bg-white text-black cursor-pointer  rounded-[40px] py-5  text-lg font-semibold  focus:text-orange-500 focus:border-orange-500`}
           >
-            {index} .{ele}
+            {index} .{ele.question}
           </div>
         );
       })}

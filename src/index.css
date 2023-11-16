@@ -4,5 +4,5 @@
 
 body {
   @apply p-0 m-0 box-border;
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Poppins', sans-serif;
 }

@@ -10,9 +10,9 @@ function Player({ player, num, handlePick }) {
     >
       <div className="text-white text-[22px]">Player {num}</div>
 
-      <h3 className="text-3xl text-blue-800">{player.name}</h3>
+      <h3 className="text-3xl text-[#d15135] font-semibold">{player.name}</h3>
       <div className="">
-        <strong className="text-[30px] text-red-500">{player.point}</strong> pts
+        <strong className="text-[30px] text-green-600">{player.point}</strong> pts
       </div>
     </div>
   );
